@@ -22,12 +22,33 @@ import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import PersonIcon from "@mui/icons-material/Person";
-
+import { useState,useEffect } from "react";
+// import {useSelector } from "react-redux";
 const Header = () => {
-    const naviagate = useNavigate();
+    const navigate = useNavigate();
+    const [isLogin,setLogin]=useState('Login')
     const isAboveLgScreen = useMediaQuery((theme) =>
         theme.breakpoints.up("lg")
     );
+  
+    useEffect(()=>{
+        const token = localStorage.getItem("token");
+        if (token) {
+            
+            setLogin('My Account')
+        }else{
+            setLogin('Login')
+        }
+    },[isLogin])
+    const handleLogin=()=>{
+     
+        if(isLogin!=='Login'){
+           
+            navigate('/my-account')
+        }else{
+            navigate('/user/login')
+        }
+    }
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (open) => (event) => {
         if (
@@ -172,14 +193,14 @@ const Header = () => {
                                     <ListItem>
                                         <HomeIcon sx={{ marginRight: 2 }} />
                                         <ListItemText
-                                            onClick={() => naviagate("/")}
+                                            onClick={() => navigate("/")}
                                             primary="Home"
                                         />
                                     </ListItem>
                                     <ListItem>
                                         <InfoIcon sx={{ marginRight: 2 }} />
                                         <ListItemText
-                                         onClick={() => naviagate("/about")}
+                                         onClick={() => navigate("/about")}
                                           primary="About" />
                                     </ListItem>
                                     <ListItem>
@@ -203,10 +224,8 @@ const Header = () => {
                                     <ListItem>
                                         <PersonIcon sx={{ marginRight: 2 }} />
                                         <ListItemText
-                                            onClick={() =>
-                                                naviagate("/user/login")
-                                            }
-                                            primary="Login"
+                                            onClick={handleLogin}
+                                            primary={isLogin}
                                         />
                                     </ListItem>
                                 </List>
@@ -228,14 +247,14 @@ const Header = () => {
                     <Typography
                         sx={{ fontWeight: 700, cursor: "pointer" }}
                         color="primary"
-                        onClick={() => naviagate("/")}
+                        onClick={() => navigate("/")}
                     >
                         Home
                     </Typography>
                     <Typography
                         sx={{ fontWeight: 700, cursor: "pointer" }}
                         color="primary"
-                        onClick={() => naviagate("/about")}
+                        onClick={() => navigate("/about")}
                     >
                         About
                     </Typography>
@@ -260,9 +279,9 @@ const Header = () => {
                     <Typography
                         sx={{ fontWeight: 700, cursor: "pointer" }}
                         color="primary"
-                        onClick={() => naviagate("/user/login")}
+                        onClick={() => navigate("/user/login")}
                     >
-                        Login
+                      {isLogin}
                     </Typography>
                 </Stack>
             )}

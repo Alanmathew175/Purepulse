@@ -16,15 +16,24 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Footer from "../../layoutes/Footer";
-import React from "react";
+import React, { useState } from "react";
+import apiCalls from "../../apiCalls/apiCalls";
+import { useNavigate } from "react-router";
+import jwt from "jwt-decode";
+// import { addUserDetails } from "../../redux/userSlice";
+// import { useDispatch } from "react-redux";
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(() => ({
     color: "#537FE7",
 }));
 
 const LoginPage = (props) => {
+    const navigate = useNavigate();
+    // const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
+    const [error, setError] = useState("");
     const [showPassword, setShowPassword] = React.useState(false);
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -46,17 +55,12 @@ const LoginPage = (props) => {
     const schema = () => {
         return !value ? userLoginSchema : userRegisterSchema;
     };
-    const Formik = useFormik({
-        initialValues: initialValues(),
-        validationSchema: schema(),
-        onSubmit: (values) => {
-            console.log(values);
-        },
-    });
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        console.log(newValue);
         Formik.resetForm();
+        setError("");
+
         Formik.setValues({
             name: "",
             email: "",
@@ -64,6 +68,32 @@ const LoginPage = (props) => {
             conformPassword: "",
         });
     };
+
+    const Formik = useFormik({
+        initialValues: initialValues(),
+        validationSchema: schema(),
+        onSubmit: async (values) => {
+            if (values.name) {
+                const response = await apiCalls.register(values);
+                if (response.status === "error") {
+                    setError(response.error);
+                } else {
+                    setValue(0);
+                    Formik.resetForm();
+                }
+            } else {
+                const response = await apiCalls.login(values);
+
+                if (response.user) {
+                    localStorage.setItem("token", response.user);
+                    // dispatch(addUserDetails(data));
+                    navigate("/");
+                } else {
+                    setError(response.error);
+                }
+            }
+        },
+    });
 
     return (
         <>
@@ -223,6 +253,12 @@ const LoginPage = (props) => {
                         ) : (
                             ""
                         )}
+                        {error && (
+                            <Typography variant="body2" color="error">
+                                {error}
+                            </Typography>
+                        )}
+
                         {value ? (
                             <Button
                                 type="submit"
