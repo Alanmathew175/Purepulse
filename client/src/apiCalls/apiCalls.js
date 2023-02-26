@@ -18,9 +18,20 @@ const login = async (userData) => {
         console.log(error.message);
     }
 };
+const adminLogin = async (userData) => {
+    try {
+       
+        const  response = await axios.post("/admin", userData);
+        return response.data
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 const apiCalls = {
     register,
-    login
+    login,
+    adminLogin
 };
 export default apiCalls;
