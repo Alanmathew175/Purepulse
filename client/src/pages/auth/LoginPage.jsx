@@ -16,20 +16,28 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Footer from "../../layoutes/Footer";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import apiCalls from "../../apiCalls/apiCalls";
 import { useNavigate } from "react-router";
-import jwt from "jwt-decode";
-// import { addUserDetails } from "../../redux/userSlice";
-// import { useDispatch } from "react-redux";
+
+
 
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(() => ({
     color: "#537FE7",
 }));
 
 const LoginPage = (props) => {
+    const isUser = props.access === 'user';
+    const isAdmin = props.access === 'Admin';
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    useEffect(()=>{
+        const user=localStorage.getItem('token')
+         const admin=localStorage.getItem('Admintoken')
+        isUser&&user&&navigate('/',{replace:true})
+        isAdmin&&admin&&navigate('/admin/admin-dashboard',{replace:true})
+    })
+    
+   
     const [value, setValue] = React.useState(0);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = React.useState(false);
@@ -38,6 +46,10 @@ const LoginPage = (props) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    // const handleFormSubmit=async(values)
+
+
+    
     const registerFormValues = {
         name: "",
         email: "",
@@ -68,7 +80,7 @@ const LoginPage = (props) => {
             conformPassword: "",
         });
     };
-
+    
     const Formik = useFormik({
         initialValues: initialValues(),
         validationSchema: schema(),
@@ -82,14 +94,31 @@ const LoginPage = (props) => {
                     Formik.resetForm();
                 }
             } else {
-                const response = await apiCalls.login(values);
 
-                if (response.user) {
-                    localStorage.setItem("token", response.user);
-                    // dispatch(addUserDetails(data));
-                    navigate("/");
-                } else {
-                    setError(response.error);
+                if (isUser) {
+                    const response = await apiCalls.login(values);
+                    if (response.user) {
+                        localStorage.setItem("token", response.user);
+                  
+                        navigate("/");
+                    }else {
+                        setError(response.error)
+                    }
+                   
+                }
+               
+                 else if(isAdmin){
+                  
+                    const response = await apiCalls.adminLogin(values);
+                    if (response.admin) {
+                        localStorage.setItem("Admintoken", response.admin);
+                    navigate('/admin/admin-dashboard')
+                    } else {
+                        setError(response.error)
+                    }
+                    
+                }else {
+                    
                 }
             }
         },
@@ -97,7 +126,7 @@ const LoginPage = (props) => {
 
     return (
         <>
-            <Header />
+          {props.access === "user"&&<Header />}
             <Container component="main" maxWidth="xs">
                 {props.access === "user" ? (
                     <Box
@@ -301,11 +330,12 @@ const LoginPage = (props) => {
                                 )}
                             </Grid>
                         </Grid>
+                       
                     </Box>
                 </Box>
             </Container>
 
-            <Footer />
+           {props.access === "user"&& <Footer />}
         </>
     );
 };
