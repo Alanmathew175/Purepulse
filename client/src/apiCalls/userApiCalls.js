@@ -12,10 +12,12 @@ const login = async (userData) => {
     try {
        
         const  response = await axios.post("/login", userData);
+        
         return response.data
         
     } catch (error) {
-        console.log(error.message);
+       
+        return error.response.data
     }
 };
 const adminLogin = async (userData) => {

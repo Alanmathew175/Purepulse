@@ -10,15 +10,17 @@ import Link from "@mui/material/Link";
 import { useFormik } from "formik";
 import { userLoginSchema, userRegisterSchema } from "../../schema/UserSchema";
 import Typography from "@mui/material/Typography";
-import Header from "../../layoutes/Header";
+
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Footer from "../../layoutes/Footer";
+
 import React, { useState,useEffect } from "react";
-import apiCalls from "../../apiCalls/apiCalls";
+import apiCalls from "../../apiCalls/userApiCalls";
 import { useNavigate } from "react-router";
+import {Dialog} from "@mui/material";
+
 
 
 
@@ -46,7 +48,7 @@ const LoginPage = (props) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    // const handleFormSubmit=async(values)
+  
 
 
     
@@ -97,6 +99,7 @@ const LoginPage = (props) => {
 
                 if (isUser) {
                     const response = await apiCalls.login(values);
+                  
                     if (response.user) {
                         localStorage.setItem("token", response.user);
                   
@@ -126,8 +129,10 @@ const LoginPage = (props) => {
 
     return (
         <>
-          {props.access === "user"&&<Header />}
-            <Container component="main" maxWidth="xs">
+       
+       <Dialog open={true} maxWidth="md" PaperProps={{ sx: {  boxShadow: 4} }}  BackdropProps={{ sx: { backgroundColor: '#1C1C30' } }}>
+         
+            <Container component="main" maxWidth="xs" sx={{bgcolor:'warning.main'}}>
                 {props.access === "user" ? (
                     <Box
                         sx={{
@@ -157,7 +162,7 @@ const LoginPage = (props) => {
                     </Box>
                 )}
             </Container>
-
+           
             <Container
                 component="main"
                 maxWidth="xs"
@@ -165,7 +170,7 @@ const LoginPage = (props) => {
             >
                 <Box
                     sx={{
-                        marginTop: 8,
+                       
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -334,8 +339,8 @@ const LoginPage = (props) => {
                     </Box>
                 </Box>
             </Container>
-
-           {props.access === "user"&& <Footer />}
+            </Dialog>
+            
         </>
     );
 };

@@ -1,9 +1,12 @@
 import React from 'react'
-import { Stack,Box,Typography,useMediaQuery,Link,Avatar } from'@mui/material'
+import { Stack,Box,Typography,useMediaQuery,Avatar } from'@mui/material'
 import Banner from "../../assets/SecondBanner.jpg"
 import AvatarImage from "../../assets/AvatarImage.jpg"
+import {Link} from 'react-router-dom'
+
 const SecondBanner = () => {
   const isAboveLgScreen = useMediaQuery(theme => theme.breakpoints.up('lg'));
+  
   return (
     <>
     {isAboveLgScreen?
@@ -22,7 +25,8 @@ const SecondBanner = () => {
       borderTopRightRadius:30,borderBottomRightRadius:30}}padding={1} >
           <Typography variant='h6'fontWeight={700}  color='secondary'>Are you a doctor,</Typography>
           <Typography variant='h6' fontWeight={700}  color='secondary'>Want to join with us?</Typography>
-          <Link variant='h6' href='#'  color='warning.main'>Learn more</Link>
+          <Link  to='/doctor'  >Learn more</Link>
+          
       </Stack>
            <Stack> 
           
@@ -39,7 +43,7 @@ const SecondBanner = () => {
           <Typography variant='h6'fontWeight={700}  color='warning.main'>Are you a doctor,</Typography>
           <Typography variant='h6'fontWeight={700}  color='warning.main'>Want to join with us?</Typography>
          
-          <Link variant='h6' href='#'  color='warning.main'>Learn more</Link>
+          <Link  to='/doctor' >Learn more</Link>
       </Stack>}
    
     </>

@@ -1,24 +1,23 @@
 import React from "react";
-import "./";
 import AdminRoutes from "./routes/adminRoutes/AdminRoutes";
 import DoctorRoutes from "./routes/doctorRoutes/DoctorRoutes";
 import UserRoutes from "./routes/userRoutes/UserRoutes";
 import theme from "./utility/CoustomTheme";
-import {ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-
-
+import { Container } from "@mui/system";
+import "./App.css"
 
 function App() {
     return (
-        <div className="App">
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <AdminRoutes />
-                <DoctorRoutes />
-                <UserRoutes />
+                <Container id="mainRoot" >
+                    <AdminRoutes />
+                    <DoctorRoutes />
+                    <UserRoutes />
+                </Container>
             </ThemeProvider>
-        </div>
     );
 }
 

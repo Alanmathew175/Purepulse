@@ -27,6 +27,7 @@ const AboutComponent = () => {
                     ABOUT US
                 </Typography>
             </Stack>
+          
             <Stack direction="row" bgcolor="warning.main" marginX={{xs:3,sm:5,md:7,lg:10}}>
                 <Typography
                     sx={{ padding: {xs:4,sm:7,md:8,lg:14 }}}
@@ -49,6 +50,7 @@ const AboutComponent = () => {
                     maxWidth={{md:300}}
                 />}
             </Stack>
+            
             <Stack
                 direction="row"
                 sx={{

@@ -36,7 +36,7 @@ const AdminMenu = () => {
         setOpen(open);
     };
     const signOut=()=>{
-      localStorage.removeItem('Admintoken')
+      localStorage.removeItem('token')
       navigate('/admin')
     }
     return (

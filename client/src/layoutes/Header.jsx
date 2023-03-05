@@ -23,10 +23,10 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState,useEffect } from "react";
-// import {useSelector } from "react-redux";
+
 const Header = () => {
     const navigate = useNavigate();
-    const [isLogin,setLogin]=useState('Login')
+    const [isLogin,setLogin]=useState(false)
     const isAboveLgScreen = useMediaQuery((theme) =>
         theme.breakpoints.up("lg")
     );
@@ -35,20 +35,12 @@ const Header = () => {
         const token = localStorage.getItem("token");
         if (token) {
             
-            setLogin('My Account')
+            setLogin(true)
         }else{
-            setLogin('Login')
+            setLogin(false)
         }
     },[isLogin])
-    const handleLogin=()=>{
-     
-        if(isLogin!=='Login'){
-           
-            navigate('/my-account')
-        }else{
-            navigate('/user/login')
-        }
-    }
+  
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (open) => (event) => {
         if (
@@ -95,7 +87,7 @@ const Header = () => {
                     </Typography>
                 </Stack>
                 {isAboveLgScreen ? (
-                    <Stack direction="row" sx={{ marginRight: 9 }}>
+                    <Stack direction="row" sx={{ marginRight: 9}}>
                         <HeadsetMicIcon
                             color="secondary"
                             fontSize="large"
@@ -223,10 +215,14 @@ const Header = () => {
                                     </ListItem>
                                     <ListItem>
                                         <PersonIcon sx={{ marginRight: 2 }} />
-                                        <ListItemText
-                                            onClick={handleLogin}
-                                            primary={isLogin}
-                                        />
+                                        {!isLogin?<ListItemText
+                                            onClick={()=>navigate('user/login')}
+                                            primary="Login"
+                                        />:<ListItemText
+                                        onClick={()=>navigate('/my-account')}
+                                        primary="My account"
+                                    />}
+                                        
                                     </ListItem>
                                 </List>
                             </Box>
@@ -242,6 +238,8 @@ const Header = () => {
                         bgcolor: "#D9D9D9",
                         justifyContent: "space-around",
                         paddingY: 3,
+                       
+                       
                     }}
                 >
                     <Typography
@@ -276,13 +274,20 @@ const Header = () => {
                     >
                         Contact
                     </Typography>
-                    <Typography
+                    {!isLogin?  <Typography
                         sx={{ fontWeight: 700, cursor: "pointer" }}
                         color="primary"
                         onClick={() => navigate("/user/login")}
                     >
-                      {isLogin}
-                    </Typography>
+                      Login
+                    </Typography>:  <Typography
+                        sx={{ fontWeight: 700, cursor: "pointer" }}
+                        color="primary"
+                        onClick={() => navigate("/my-account")}
+                    >
+                     My account
+                    </Typography>}
+                  
                 </Stack>
             )}
         </Stack>

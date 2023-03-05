@@ -1,15 +1,19 @@
-import React from 'react'
+import React,{lazy,Suspense} from 'react'
 import Header from '../../layoutes/Header'
 import Footer from '../../layoutes/Footer'
-import Banner from '../../components/userComponents/Banner'
+
 import Cards from '../../components/userComponents/Cards'
 import SecondBanner from '../../components/userComponents/SecondBanner'
 import Testimonials from '../../components/userComponents/Testimonials'
+const Banner = lazy(()=> import('../../components/userComponents/Banner'))
+
 const UserHome = () => {
   return (
     <>
     <Header/>
-        <Banner/>
+    <Suspense fallback={<div>Loading...</div>}>
+        <Banner />
+      </Suspense>
         <Cards/>
         <SecondBanner/>
         <Testimonials/>

@@ -45,12 +45,17 @@ exports.postLogin = asyncHandler(async (req, res) => {
 
             res.json({ status: "ok", user: token });
         } else {
-            res.json({
-                status: "error",
-                error: "Email or password is incorrect",
-            });
+            // res.json({
+            //     status: "error",
+            //     error: "Email or password is incorrect",
+            // });
+            res.status(400).json({
+                error: "Email or password is incorrect"
+            })
         }
     } else {
-        res.json({ status: "error", error: "Email or password is incorrect" });
+        res.status(400).json({
+            error: "Email or password is incorrect"
+        })
     }
 });
