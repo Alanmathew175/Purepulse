@@ -19,16 +19,19 @@ const PersonelForm = () => {
       reader.onloadend=()=>{
         if (name==='image') {
           setPreview(reader.result)
+          dispatch(updateDoctorData({...userData,image:reader.result}))
         }else {
           setIdProof(reader.result)
+          dispatch(updateDoctorData({...userData,idProof:reader.result}))
         }
         
         localStorage.setItem(`${name}`,reader.result)
+       
       }
     }
    const handleChange=(e)=>{
         setConfirmPassword(e.target.value)
-        console.log(Confirmpassword);
+        
         if (Confirmpassword!==userData['password']) {
           setError('password must be same')
         }else{
@@ -72,24 +75,24 @@ const PersonelForm = () => {
                     <Stack direction="row" spacing={5} bgcolor="warming.main">
                         <TextField
                             label="First name"
-                            value={userData["firstname"]}
+                            value={userData["fname"]}
                             onChange={(e) =>
                                 dispatch(
                                     updateDoctorData({
                                         ...userData,
-                                        fullname: e.target.value,
+                                        fname: e.target.value,
                                     })
                                 )
                             }
                         />
                         <TextField
                             label="Last name"
-                            value={userData["lastname"]}
+                            value={userData["lname"]}
                             onChange={(e) =>
                                 dispatch(
                                     updateDoctorData({
                                         ...userData,
-                                        lastname: e.target.value,
+                                        lname: e.target.value,
                                     })
                                 )
                             }

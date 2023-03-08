@@ -1,6 +1,8 @@
 import axios from "../utility/axios";
+
 const doDoctorRegisteration =async(data)=>{
     try {
+       
         const response=await axios.post('/doctor/registeration',data)
         return response.data
     } catch (error) {
@@ -8,6 +10,7 @@ const doDoctorRegisteration =async(data)=>{
     }
  
 }
+
 const apiCalls = {
     doDoctorRegisteration
     

@@ -11,6 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateDoctorData } from "../../redux/doctorSlice";
 import apiCalls from "../../apiCalls/doctorApiCalls";
 import {useNavigate} from "react-router-dom"
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Typography } from "@mui/material";
 
 const steps = ["Personel information ", "professional life", "Confirmation"];
 
@@ -19,9 +22,14 @@ export default function Form() {
     const [activeStep, setActiveStep] = useState(0);
     const [error,setError]=useState('')
     const userData = useSelector((state) => state.doctor.doctorData);
-    const {firstname,lastname,mobile,password,specialization,hospital,experience,email,clinic,address}=userData
+    const {firstname,lastname,mobile,password,specialization,hospital,experience,email,clinic,address,image,idProof,licence}=userData
     const dispatch = useDispatch();
     const navigate=useNavigate()
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+      setOpen(false);
+    };
+    
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -39,19 +47,25 @@ export default function Form() {
 
 
     const handleSubmit=async()=>{
-        const image = localStorage.getItem('image')
-        const idProof =localStorage.getItem('idProof')
-        const licence = localStorage.getItem('licence')
+        // const image = localStorage.getItem('image')
+        // const idProof =localStorage.getItem('idProof')
+        // const licence = localStorage.getItem('licence')
         if (firstname||lastname||mobile||password||specialization||hospital||experience||email||clinic||address||image||idProof||licence) {
-            dispatch(updateDoctorData({...userData,image,idProof,licence}))
+            // dispatch(updateDoctorData({...userData,image,idProof,licence}))
+            console.log(userData);
+            console.log('hgh');
+            setOpen(!open)
             const response=await apiCalls.doDoctorRegisteration(userData)
+
             if (response.message) {
+                setOpen(false);
                 localStorage.removeItem('image')
                 localStorage.removeItem('idProof')
                 localStorage.removeItem('licence')
+                dispatch(updateDoctorData([]))
                 navigate('/doctor-complete-registeration')
             } else {
-                console.log(response);
+                setOpen(false);
                 setError(response.error)
             }
         } else {
@@ -111,6 +125,14 @@ export default function Form() {
                        Next
                     </Button>
                         }
+                        <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <Typography>Please wait your application is being submitting</Typography>
+        <CircularProgress color="inherit" />
+      </Backdrop>
                 </Box>
             </Box>
     

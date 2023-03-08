@@ -18,6 +18,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import React, { useState,useEffect } from "react";
 import apiCalls from "../../apiCalls/userApiCalls";
+import adminApiCalls from "../../apiCalls/adminApiCalls";
 import { useNavigate } from "react-router";
 import {Dialog} from "@mui/material";
 
@@ -112,7 +113,7 @@ const LoginPage = (props) => {
                
                  else if(isAdmin){
                   
-                    const response = await apiCalls.adminLogin(values);
+                    const response = await adminApiCalls.adminLogin(values);
                     if (response.admin) {
                         localStorage.setItem("Admintoken", response.admin);
                     navigate('/admin/admin-dashboard')

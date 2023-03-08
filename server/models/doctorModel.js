@@ -15,9 +15,9 @@ const doctorSchema=mongoose.Schema({
         required:true,
         trim:true
     },
-    isDoctor:{
-        type:Boolean,
-        default:true
+    Status:{
+        type:String,
+        default:"Applied"
     },mobile:{
         type:Number,
         required:true,

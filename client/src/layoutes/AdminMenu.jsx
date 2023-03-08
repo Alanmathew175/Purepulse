@@ -19,7 +19,9 @@ import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router";
-const AdminMenu = () => {
+const AdminMenu = (props) => {
+    const isSelected=props.page
+    
   const navigate=useNavigate()
     const isAboveLgScreen = useMediaQuery((theme) =>
         theme.breakpoints.up("lg")
@@ -47,7 +49,7 @@ const AdminMenu = () => {
                         bgcolor: "secondary.main",
                         maxWidth: 260,
                         height: "91vh",
-                        color: "warning.light",
+                       color:"warning.main",
                        
                         padding: 4,
                     }}
@@ -70,7 +72,7 @@ const AdminMenu = () => {
                             <DashboardIcon sx={{ marginRight: 2 }} />
                             <ListItemText primary="Dashboard" />
                         </ListItem>
-                        <ListItem sx={{'&:hover':{
+                        <ListItem  sx={{color:isSelected==="Doctors"?"primary.main":"warning.main",'&:hover':{
                           color:'primary.main',
                           cursor:'pointer'
                         }}}
@@ -122,7 +124,7 @@ const AdminMenu = () => {
                         color="secondary"
                         onClick={toggleDrawer(true)}
                     >
-                        <MenuIcon fontSize="large" sx={{ marginTop: 3 }} />
+                        <MenuIcon fontSize="large" sx={{ marginTop: 1.8 }} />
                     </IconButton>
                     <Drawer
                         anchor="left"
@@ -184,20 +186,7 @@ const AdminMenu = () => {
                     </Drawer>
                 </Box>
             )}
-            <Stack 
-                sx={{
-                    bgcolor: "#301E67",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    pb: 3,
-                }}
-            >
-                <Typography variant="body1" color="warning.main" paddingTop={2}>
-                    {"Copyright © "}
-                    PurePulse {new Date().getFullYear()}
-                </Typography>
-            </Stack>
+           
         </>
     );
 };

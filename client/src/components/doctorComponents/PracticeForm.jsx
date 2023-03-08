@@ -17,6 +17,7 @@ const PracticeForm = () => {
       
         
       localStorage.setItem('licence',reader.result)
+      dispatch(updateDoctorData({...userData,licence:reader.result}))
     }
   }
   const handleFileChange=(e)=>{

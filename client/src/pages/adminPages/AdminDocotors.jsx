@@ -1,9 +1,11 @@
 import React from 'react'
-import AdminMenu from '../../layoutes/AdminMenu'
+import Doctor from '../../components/adminComponents/Doctor'
+import AdminFooter from '../../layoutes/AdminFooter'
 const AdminDocotors = () => {
   return (
     <>
-        <AdminMenu/>
+       <Doctor/>
+        < AdminFooter/>
     </>
   )
 }

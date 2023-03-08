@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState={
       doctorData:[],
-      finalData:[]
+    
 }
 
 const doctorRegisteration=createSlice({
@@ -12,12 +12,9 @@ const doctorRegisteration=createSlice({
         updateDoctorData:(state,action)=>{
             state.doctorData=action.payload
            
-        },
-        updateFinalData:(state,action)=>{
-            state.finalData=action.payload
         }
     }
 })
 
-export const {updateDoctorData,updateFinalData}=doctorRegisteration.actions
+export const {updateDoctorData}=doctorRegisteration.actions
 export default doctorRegisteration.reducer
